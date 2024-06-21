@@ -20,14 +20,14 @@ export default function Settings() {
                 <div className="p-2">
                     <div className="flex flex-col gap-2">
                         <div className="flex justify-between items-center">
-                            <h1 className="text-sm font-bold">Buckets</h1>
-                            <button onClick={() => { setIsAddBucketModalOpen(true) }} className="text-sm font-bold text-blue-500">Add Bucket</button>
+                            <h1 className="text-sm font-bold">Connectors</h1>
+                            <button onClick={() => { setIsAddBucketModalOpen(true) }} className="text-sm font-bold text-blue-500">Add Connector</button>
                             {
                                 isAddBucketModalOpen && (
                                     <div className="absolute top-0 left-0 w-full h-full bg-black bg-opacity-50 flex justify-center items-center">
                                         <div className="w-[50%] h-max bg-white p-4 rounded-md">
                                             <div className="flex flex-col gap-2">
-                                                <input type="text" placeholder="Name" className="w-full p-2 border rounded-md" onChange={(e) => { setBucket({ ...bucket, name: e.target.value }) }} />
+                                                <input type="text" placeholder="Connector Name" className="w-full p-2 border rounded-md" onChange={(e) => { setBucket({ ...bucket, name: e.target.value }) }} />
                                                 <input type="text" placeholder="Bucket Name" className="w-full p-2 border rounded-md" onChange={(e) => { setBucket({ ...bucket, bucketName: e.target.value }) }} />
                                                 <input type="text" placeholder="Region" className="w-full p-2 border rounded-md" onChange={(e) => { setBucket({ ...bucket, region: e.target.value }) }} />
                                                 <input type="text" placeholder="Access Key" className="w-full p-2 border rounded-md" onChange={(e) => { setBucket({ ...bucket, accessKey: e.target.value }) }} />
@@ -39,14 +39,14 @@ export default function Settings() {
                                                             return;
                                                         }
                                                         if (bucketsState.find((b) => b.name === bucket.name)) {
-                                                            alert("Name already exists");
+                                                            alert("Connector Name already exists");
                                                             return;
                                                         }
                                                         dispatch(Buckets.addBucket(bucket));
                                                         setBucket({} as Buckets.Bucket);
                                                         setIsAddBucketModalOpen(false);
                                                     }}
-                                                    className="w-full p-2 bg-blue-500 text-white rounded-md">Add Bucket</button>
+                                                    className="w-full p-2 bg-blue-500 text-white rounded-md">Add Connector</button>
                                                 <button onClick={() => { setIsAddBucketModalOpen(false) }} className="w-full p-2 bg-red-500 text-white rounded-md">Cancel</button>
                                             </div>
                                         </div>

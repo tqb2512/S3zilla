@@ -51,8 +51,29 @@ export default function FileDetail({ bucket, filePath }: FileDetailProps) {
         )
     }
 
+    const downloadFile = async () => {
+        const command = new GetObjectCommand({
+            Bucket: bucket.bucketName,
+            Key: filePath,
+        });
+        try {
+            const response = await s3Client.send(command);
+            const readableStream = response.Body as ReadableStream;
+            const arrayBuffer = await new Response(readableStream).arrayBuffer();
+            const blob = new Blob([arrayBuffer]);
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement("a");
+            a.href = url;
+            a.download = filePath.split("/").pop() ?? "file";
+            a.click();
+            URL.revokeObjectURL(url);
+        } catch (error) {
+            console.error(error);
+        }
+    }
+
     return (
-        <div className="h-full p-4">
+        <div className="h-full p-4 bg-white">
 
             <div className="flex flex-col justify-between">
                 <h1 className="">File name: {filePath.split("/").pop()}</h1>
@@ -61,6 +82,9 @@ export default function FileDetail({ bucket, filePath }: FileDetailProps) {
                 <h1 className="">Size: {fileDetail?.ContentLength}</h1>
                 <h1 className="">Last modified: {fileDetail?.LastModified.toLocaleString()}</h1>
                 <h1 className="">Content type: {fileDetail?.ContentType}</h1>
+                <button
+                    onClick={downloadFile}
+                    className="bg-blue-500 text-white p-2 rounded-md mt-4">Download</button>
             </div>
 
             <div className="h-screen w-full">
